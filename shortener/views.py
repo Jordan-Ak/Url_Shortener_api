@@ -5,13 +5,14 @@ from rest_framework.response import Response
 
 from .models import Link
 from .serializers import LinkSerializer
-
+from .permissions import IsAdminOrReadOnly
 # Create your views here.
 
 
 class LinkViewSet(viewsets.ModelViewSet):
     serializer_class = LinkSerializer
-    
+    permission_classes = [IsAdminOrReadOnly]
+
     def get_queryset(self):
 
         if self.request.user.is_staff or self.action != 'list':
