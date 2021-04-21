@@ -3,7 +3,7 @@ from string import ascii_letters, digits
 from random import choices
 import uuid
 
-from .admin_variables import num_random_strings, HOST_URL
+from .admin_variables import num_random_strings, HOST_URL, custom_max_length
 
 # Create your models here.
 
@@ -12,6 +12,8 @@ class Link(models.Model):
     input_link = models.URLField()
     short_link = models.URLField(blank = True, null = True,)
     when_created = models.DateTimeField(auto_now_add = True)
+    custom_link = models.CharField(blank = True, null = True, unique = True,
+                                         max_length = custom_max_length,)
 
 #user makes custom short url idea
     
@@ -28,8 +30,15 @@ class Link(models.Model):
         else:
             random_generator() #I put recursion in cool!
     
+    def custom_generator(self):
+        custom_gen = HOST_URL + '/' + self.custom_link
+        return custom_gen
+
     def save(self, *args, **kwargs):
-        if not self.short_link:
+        if not self.short_link and not self.custom_link:
             link = self.random_generator()
+            self.short_link = link
+        else:
+            link = self.custom_generator()
             self.short_link = link
         return super().save(*args, **kwargs)
