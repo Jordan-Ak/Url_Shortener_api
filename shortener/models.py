@@ -8,8 +8,8 @@ from .admin_variables import num_random_strings, HOST_URL
 
 class Link(models.Model):
     input_link = models.URLField()
-    short_link = models.URLField(blank = True, null = True, read_only = True,)
-    when_created = models.DateTimeField(auto_add_now = True)
+    short_link = models.URLField(blank = True, null = True,)
+    when_created = models.DateTimeField(auto_now_add = True)
 
 #user makes custom short url idea
     
