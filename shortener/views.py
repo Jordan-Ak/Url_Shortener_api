@@ -15,6 +15,6 @@ class LinkViewSet(viewsets.ModelViewSet):
             queryset = Link.objects.all()
         
         else:
-            pass
+            return None
         
         return queryset
