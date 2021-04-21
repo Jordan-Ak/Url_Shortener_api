@@ -16,9 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from shortener.urls import router
+from shortener.views import Link_Redirector
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
     path('api/', include(router.urls)),
+    
     path('api-auth', include('rest_framework.urls')),
+    path('<str:short_link>/', Link_Redirector.as_view(), name = 'link_redirect'),
+    
+    
 ]
