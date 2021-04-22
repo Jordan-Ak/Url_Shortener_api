@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'url_short.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', #Remember to install psycopg2 (pip install psycopg2)
-        'NAME': 'shortener', #This name has to be the exact name as the database you setup in pgadmin 4
+        'NAME': 'SHORT_URL', #This name has to be the exact name as the database you setup in pgadmin 4
         'USER': env.str('USER'),#Default username for postgresql after install postgresql
         'PASSWORD': env.str('PASSWORD'),#Remember the password you used during installation.
         'HOST': '127.0.0.1', #Host server as the name says.
