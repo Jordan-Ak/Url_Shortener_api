@@ -37,7 +37,7 @@ class LinkViewSet(viewsets.ModelViewSet):
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
                 return Response(serializer.data)
-
+        return Response("Input Link field may not be blank!")
 
 class Link_Redirector(View):
 
