@@ -2,6 +2,8 @@ from django.shortcuts import reverse, get_object_or_404
 from django.views import View
 from django.http import HttpResponseRedirect
 from rest_framework import viewsets
+from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .admin_variables import HOST_URL
@@ -25,8 +27,27 @@ class LinkViewSet(viewsets.ModelViewSet):
         
         return queryset
 
+   
     def create(self, request, *args, **kwargs):
- 
+        data = request.data
+
+        #new_link = models.Link.objects.create(UUID = data["UUID"], input_link = data["input_link"],
+         #                                   short_link = data["short_link"],
+          #                                   when_created = data["when_created"],
+           #                                  custom_link = data["custom_link"],)
+        try:
+            instance = Link.objects.get(input_link = data["input_link"])
+            return HttpResponseRedirect(reverse('LinkView-detail', args = [instance.UUID]))
+
+        except Link.DoesNotExist:
+                serializer = LinkSerializer(data = request.data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        """
+    
+    Keeping this code for keepsake it is failed code anyways
+    def create(self, request, *args, **kwargs):
         if "input_link" in request.POST:
             try:
                 instance = Link.objects.get(input_link = request.POST['input_link'])
@@ -36,9 +57,11 @@ class LinkViewSet(viewsets.ModelViewSet):
                 serializer = LinkSerializer(data = request.data)
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
-                return Response(serializer.data)
-        return Response("Input Link field may not be blank!")
-
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+      
+        #return Response({'received data': request.data})
+         """
+  
 class Link_Redirector(View):
 
     def get(self, request, short_link, *args, **kwargs):

@@ -12,7 +12,7 @@ class Link(models.Model):
     input_link = models.URLField(max_length = url_max_length,)
     short_link = models.URLField(blank = True, null = True,)
     when_created = models.DateTimeField(auto_now_add = True)
-    custom_link = models.CharField(null = True, unique = True,
+    custom_link = models.CharField(unique = True, blank = True, null = True,
                                          max_length = custom_max_length,)
 
 #user makes custom short url idea
@@ -38,6 +38,7 @@ class Link(models.Model):
         if not self.short_link and not self.custom_link:
             link = self.random_generator()
             self.short_link = link
+            self.custom_link = None
         else:
             link = self.custom_generator()
             self.short_link = link
